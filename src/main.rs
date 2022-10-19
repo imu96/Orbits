@@ -28,12 +28,17 @@ fn orbits(app: &App, _model: &Model, frame: Frame){
     let dot_col = CORNFLOWERBLUE;
     let line_col = STEELBLUE;
     let sz = 10.0;
-    let mults = [(158.3, 250.0), (3333.3, 555.0)];
+     
+    /* Each tuple consists of: 
+    1) velocity multiplier
+    2) orbital distance from central point
+    3) offset from origin (can be used for x or y direction) */
+    let params = [(78.3, 250.0, 222.0), (1333.3, 555.0, 0.0)];
 
     // plot dots and stores their positions to plot lines
     let mut posns = Vec::new();
-    for (vel, dist) in mults {
-	let xx = dist * ((tt/vel).sin());
+    for (vel, dist, offset) in params {
+	let xx = dist * ((tt/vel).sin())+offset;
 	let yy = dist * ((tt/vel).cos());
 	draw.ellipse().color(dot_col).w(sz).h(sz)
 	    .x_y(xx,yy);
