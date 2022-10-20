@@ -11,7 +11,7 @@ struct Model {
 }
 
 fn model(_app: &App) -> Model {
-    let _wind = _app.new_window().size(1500,1110).title("aoeu")
+    let _wind = _app.new_window().size(1500,1200)
 	.view(orbits).build().unwrap();
     Model {_wind}
 }
@@ -35,14 +35,17 @@ fn orbits(app: &App, _model: &Model, frame: Frame){
     /* Each tuple consists of: 
     1) velocity multiplier
     2) orbital distance from central point
-    3) offset from origin (can be used for x or y direction) */
-    let params = [(78.3, 250.0, 222.0), (1333.3, 555.0, 0.0)];
+    3) offset from origin (can be used for x or y direction)
+    4) elliptical multiplier for stretching in the y direction
+    5) elliptical multiplier for stretching in the x direction */
+    let params = [(78.3, 250.0, 0.0, 1.0, 0.5),
+		  (1333.3, 505.0, 0.0, 0.5, 1.0)];
 
     // Draw dots and store their positions to draw lines
     let mut posns = Vec::new();
-    for (vel, dist, offset) in params {
-	let xx = dist * ((tt/vel).sin())+offset;
-	let yy = dist * ((tt/vel).cos());
+    for (vel, dist, offset, ell1, ell2) in params {
+	let xx = (dist * ((tt/vel).sin())) * ell1 +offset;
+	let yy = dist * ((tt/vel).cos()) * ell2;
 	draw.ellipse().color(dot_col).w(sz).h(sz)
 	    .x_y(xx,yy);
 	if tt2 % 10 == 0 {
