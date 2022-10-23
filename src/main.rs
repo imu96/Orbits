@@ -102,6 +102,19 @@ fn orbits(app: &App, _model: &Model, frame: Frame){
     draw.to_frame(app, &frame).unwrap();
 }
 
+fn orbits2(app: &App, _model: &Model, frame: Frame){
+    // Prepare to draw.
+    let draw = app.draw();
+    // Get current time
+    let tt = app.elapsed_frames() as f32;
+    let tt2 = app.elapsed_frames() ;
+
+    let dot_col = CORNFLOWERBLUE;
+    let line_col = STEELBLUE;
+
+    // Size of dots
+    let sz = 10.0;
+     
     /* Each tuple consists of: 
     1) velocity multiplier
     2) orbital distance from central point
@@ -110,6 +123,10 @@ fn orbits(app: &App, _model: &Model, frame: Frame){
     5) elliptical multiplier for stretching in the x direction */
     let params = [(78.3, 250.0, 0.0, 1.0, 0.5),
 		  (1333.3, 505.0, 0.0, 0.5, 1.0)];
+
+    /* Parameters for master orbit i.e. orbit the other orbits have
+    lines to */
+    params_mast = [(1333.3, 505.0, 0.0, 1.0, 1.0)];
 
     // Draw dots and store their positions to draw lines
     let mut posns = Vec::new();
